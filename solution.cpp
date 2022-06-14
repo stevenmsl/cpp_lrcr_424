@@ -15,6 +15,9 @@ using namespace std;
 
 /*takeaways
   - use a sliding window as we are trying to find a substring that qualifies
+    - use a hash table to record the frequency of each char
+    - the window size can't be longer than the number of most repeated
+      char plus k
   - AAABCDE, K=2
     - we first grow the window to AAABC.
       - we allow up to two chars to be different from the most
@@ -26,10 +29,11 @@ using namespace std;
         the window to the right. so the window becomes AABCD
       - as you can see how the statistics have all changed:
         the number of the most repeated char has become 2.
-      - so the question here is when we re-evaluate a window do we
+      - so the question here is, while we re-evaluate a window, do we
         use 2 or 3 from before for the number of the most repeated
-        char? We can't lower the bar as that will not produce a longer
-        substring as we expected which has the size of 3+2=5
+        char? We will pick '3'. We can't lower the bar as
+        that will not produce a longer substring than we already
+        have, which has the size of 3+2=5
 
 */
 int Solution::replace(string s, int k)
@@ -43,7 +47,8 @@ int Solution::replace(string s, int k)
     freq[s[i] - 'A']++;
     /* only allow to do better hence the max */
     mostRepeated = max(mostRepeated, freq[s[i] - 'A']);
-    /* shrink the window until it meets the criteria  */
+    /* shrink the window until it meets the criteria
+     */
     while (i - start + 1 - mostRepeated > k)
       /* update the stats and remove the char from the window */
       freq[s[start] - 'A']--, start++;
