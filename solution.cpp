@@ -35,6 +35,8 @@ using namespace std;
         that will not produce a longer substring than we already
         have, which has the size of 3+2=5
 
+    - time complexity O(n)
+
 */
 int Solution::replace(string s, int k)
 {
